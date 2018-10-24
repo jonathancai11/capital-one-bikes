@@ -1,5 +1,8 @@
 import csv
 from collections import defaultdict
+import numpy as np
+import geopy.distance
+
 
 
 def processCSV(filename):
@@ -55,17 +58,39 @@ def computeAverageDistanceTravelled(rows):
     """
     Given rows of our data, computes average distance.
     """
+    count = 0
+    distances = []
     for row in rows:
+        count += 1
         # Start data
-        start_lat = row[5]
-        start_long = row[6]
+        start_lat = float(row[5])
+        start_long = float(row[6])
         # End data
-        end_lat = row[5]
-        start_long = row[5]
+        end_lat = float(row[8])
+        end_long = float(row[9])
+
+        trip_route_category = row[12]
+
+
+        start = np.array([start_lat, start_long])
+        end = np.array([end_lat, end_long])
+
+        # print(start_lat, start_long, " ->  TO  -> ", end_lat, end_long)
+        if trip_route_category != "Round Trip":
+            distance = geopy.distance.distance(start, end)
+            # print("Distance :", distance)
+            distances.append(distance)
+        if count == 20:
+            break
+
+    for dist in distances:
+        print(dist.miles)
+    # print(x.miles for x in distances)
 
 def run(filename):
     rows = processCSV(filename)
-    top_stations(rows)
+    # top_stations(rows)
+    computeAverageDistanceTravelled(rows)
 
 run("data/bike-data.csv")
 
