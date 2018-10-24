@@ -10,17 +10,6 @@ def processCSV(filename):
     with open(filename, 'r') as f:
         reader = csv.reader(f)
         rows = list(reader)
-
-    # with open(filename, 'r') as csv_file:
-    #     csv_reader = csv.reader(csv_file, delimiter=',')
-    #     line_count = 0
-    #     # Iterate through rows
-    #     for row in csv_reader:
-    #         # First row contains column names
-    #         if line_count == 0:
-    #             print(f'Column names are {", ".join(row)}')
-    #             line_count += 1
-
     # Return all rows except first
     return rows[1:]
 
@@ -37,8 +26,12 @@ def top_stations(rows):
         start_stations[start_station] += 1
         end_stations[end_station] += 1
 
+    # print(start_stations)
+    # print(end_stations)
+
     # Computing top 5 starts
     unique_starts = len(start_stations.values())
+    print("Number of unique starting stations:", unique_starts)
     top5_start_scores = sorted(start_stations.values())[unique_starts - 5: unique_starts]
     top_starts = []
     for start in start_stations:
@@ -49,6 +42,7 @@ def top_stations(rows):
 
     # Computing top 5 ends
     unique_ends = len(end_stations.values())
+    print("Number of unique ending stations:", unique_ends)
     top5_end_scores = sorted(end_stations.values())[unique_ends - 5: unique_ends]
     top_ends = []
     for end in end_stations:
@@ -77,18 +71,3 @@ run("data/bike-data.csv")
 
 # Trip ID, Duration, Start Time, End Time, Starting Station ID, Starting Station Latitude, Starting Station Longitude, Ending Station ID, Ending Station Latitude, Ending Station Longitude, Bike ID, Plan Duration, Trip Route Category, Passholder Type, Starting Lat-Long, Ending Lat-Long
 
-
-# print("Trip ID: " + row[0]
-#       + "Duration: " + row[1]
-#       + "Start Time: " + row[2]
-#       + "Starting Station ID: " + row[3]
-#       + "Starting Station Latitude: " + row[4]
-#       + "Starting Station Longitude: " + row[5]
-#       + "Ending Station ID: " + row[6]
-#       + "Ending Station Latitude: " + row[7]
-#       + "Ending Station Longitude: " + row[8]
-#       + "Bike ID: " + row[9]
-#       + "Plan Duration: " + row[9]
-#       + "Trip Route Category: " + row[9]
-#       + "Ending Station ID: " + row[9]
-#       )
