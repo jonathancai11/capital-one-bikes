@@ -5,7 +5,8 @@ import geopy.distance
 
 
 
-def processCSV(filename):
+
+def process_csv(filename):
     """
     Opens and returns our csv file by lines.
     """
@@ -42,7 +43,6 @@ def top_stations(rows):
             top_starts.append(start)
     print(top_starts)
 
-
     # Computing top 5 ends
     unique_ends = len(end_stations.values())
     print("Number of unique ending stations:", unique_ends)
@@ -54,7 +54,7 @@ def top_stations(rows):
     print(top_ends)
 
 
-def computeAverageDistanceTravelled(rows):
+def average_distance_travelled(rows):
     """
     Given rows of our data, computes average distance.
     """
@@ -62,15 +62,18 @@ def computeAverageDistanceTravelled(rows):
     distances = []
     for row in rows:
         count += 1
-        # Start data
-        start_lat = float(row[5])
-        start_long = float(row[6])
-        # End data
-        end_lat = float(row[8])
-        end_long = float(row[9])
+        # Malformed data, sometimes can't parse to float
+        try:
+            # Start data
+            start_lat = float(row[5])
+            start_long = float(row[6])
+            # End data
+            end_lat = float(row[8])
+            end_long = float(row[9])
+        except ValueError:
+            continue
 
         trip_route_category = row[12]
-
 
         start = np.array([start_lat, start_long])
         end = np.array([end_lat, end_long])
@@ -82,15 +85,33 @@ def computeAverageDistanceTravelled(rows):
             distances.append(distance)
         if count == 20:
             break
+    # for dist in distances:
+    #     print(dist.miles)
+    distances_miles = list(x.miles for x in distances)
+    print("Average distance:", sum(distances_miles) / len(distances_miles))
 
-    for dist in distances:
-        print(dist.miles)
-    # print(x.miles for x in distances)
+
+def regular_commute(rows):
+    """
+    Given the rows of data, computes the number of "riders that include bike-sharing
+    as a regular part of their commute.
+    """
+    count = 0
+    regulars = 0
+    for row in rows:
+        count += 1
+        pass_type = row[13]
+        if pass_type != "Walk-up":
+            regulars += 1
+        # if count == 20:
+        #     break
+    print(regulars)
 
 def run(filename):
-    rows = processCSV(filename)
+    rows = process_csv(filename)
     # top_stations(rows)
-    computeAverageDistanceTravelled(rows)
+    # average_distance_travelled(rows)
+    regular_commute(rows)
 
 run("data/bike-data.csv")
 
