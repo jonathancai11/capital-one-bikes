@@ -2,8 +2,7 @@ import csv
 from collections import defaultdict
 import numpy as np
 import geopy.distance
-
-
+import json
 
 
 def process_csv(filename):
@@ -34,8 +33,9 @@ def top_stations(rows):
     # print(end_stations)
 
     # Computing top 5 starts
-    unique_starts = len(start_stations.values())
+    unique_starts = len(start_stations)
     print("Number of unique starting stations:", unique_starts)
+
     top5_start_scores = sorted(start_stations.values())[unique_starts - 5: unique_starts]
     top_starts = []
     for start in start_stations:
@@ -44,8 +44,9 @@ def top_stations(rows):
     print(top_starts)
 
     # Computing top 5 ends
-    unique_ends = len(end_stations.values())
+    unique_ends = len(end_stations)
     print("Number of unique ending stations:", unique_ends)
+
     top5_end_scores = sorted(end_stations.values())[unique_ends - 5: unique_ends]
     top_ends = []
     for end in end_stations:
@@ -79,14 +80,16 @@ def average_distance_travelled(rows):
         end = np.array([end_lat, end_long])
 
         # print(start_lat, start_long, " ->  TO  -> ", end_lat, end_long)
+
+        # Only considering One-Way trips for now....
         if trip_route_category != "Round Trip":
             distance = geopy.distance.distance(start, end)
             # print("Distance :", distance)
             distances.append(distance)
+
         if count == 20:
             break
-    # for dist in distances:
-    #     print(dist.miles)
+
     distances_miles = list(x.miles for x in distances)
     print("Average distance:", sum(distances_miles) / len(distances_miles))
 
@@ -103,17 +106,28 @@ def regular_commute(rows):
         pass_type = row[13]
         if pass_type != "Walk-up":
             regulars += 1
+
         # if count == 20:
         #     break
+
     print(regulars)
 
 def run(filename):
-    rows = process_csv(filename)
+    """
+    Run computations.
+    """
+    # rows = process_csv(filename)
     # top_stations(rows)
     # average_distance_travelled(rows)
-    regular_commute(rows)
+    # regular_commute(rows)
 
-run("data/bike-data.csv")
+# run("data/bike-data.csv")
 
-# Trip ID, Duration, Start Time, End Time, Starting Station ID, Starting Station Latitude, Starting Station Longitude, Ending Station ID, Ending Station Latitude, Ending Station Longitude, Bike ID, Plan Duration, Trip Route Category, Passholder Type, Starting Lat-Long, Ending Lat-Long
+
+test = { "name":"John", "age":40, "car":None }
+##convert object to json
+# serialized= json.dumps(test)
+# print(serialized)
+with open('data.json', 'w') as outfile:
+    json.dump(test, outfile)
 
