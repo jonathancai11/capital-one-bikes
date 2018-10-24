@@ -55,6 +55,9 @@ def top_stations(rows):
     print(top_ends)
 
 
+    return start_stations, end_stations
+
+
 def average_distance_travelled(rows):
     """
     Given rows of our data, computes average distance.
@@ -116,18 +119,23 @@ def run(filename):
     """
     Run computations.
     """
-    # rows = process_csv(filename)
-    # top_stations(rows)
+    rows = process_csv(filename)
+    start_stations, end_stations = top_stations(rows)
+    with open('data/start_stations_frequency.json', 'w') as outfile:
+        json.dump(start_stations, outfile)
+    with open('data/end_stations_frequency.json', 'w') as outfile:
+        json.dump(end_stations, outfile)
+
     # average_distance_travelled(rows)
     # regular_commute(rows)
 
-# run("data/bike-data.csv")
+run("data/bike-data.csv")
 
 
-test = { "name":"John", "age":40, "car":None }
+# test = { "name":"John", "age":40, "car":None }
 ##convert object to json
 # serialized= json.dumps(test)
 # print(serialized)
-with open('data.json', 'w') as outfile:
-    json.dump(test, outfile)
+# with open('data.json', 'w') as outfile:
+#     json.dump(test, outfile)
 
