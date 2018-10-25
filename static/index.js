@@ -46,7 +46,7 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom");
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#q2").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
