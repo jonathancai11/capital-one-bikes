@@ -62,9 +62,11 @@ def average_distance_travelled(rows):
     Given rows of our data, computes average distance.
     """
     count = 0
+    total_distance = 0
     distances = defaultdict(int)
+
     for row in rows:
-        count += 1
+
         # Malformed data, sometimes can't parse to float
         try:
             # Start data
@@ -86,14 +88,14 @@ def average_distance_travelled(rows):
         # Only considering One-Way trips for now....
         if trip_route_category != "Round Trip":
             distance = geopy.distance.distance(start, end)
-            # print("Distance :", distance)
             distances[distance.miles] += 1
+            total_distance += distance.miles
+            count += 1
 
         # if count == 20:
         #     break
 
-    distances_miles = list(x for x in distances)
-    print("Average distance in miles:", sum(distances_miles) / len(distances_miles))
+    print("Average distance in miles:", total_distance / count)
 
     return distances
 
@@ -121,27 +123,21 @@ def run(filename):
     """
     Run computations.
     """
-    rows = process_csv(filename)
+    # rows = process_csv(filename)
+
+    # START/STOP STATIONS
     # start_stations, end_stations = top_stations(rows)
     # with open('data/start_stations_frequency.json', 'w') as outfile:
     #     json.dump(start_stations, outfile)
     # with open('data/end_stations_frequency.json', 'w') as outfile:
     #     json.dump(end_stations, outfile)
-    #
 
-    distances = average_distance_travelled(rows)
-    with open('data/travel_distances.json', 'w') as outfile:
-        json.dump(distances, outfile)
+    # DISTANCES
+    # distances = average_distance_travelled(rows)
+    # with open('data/travel_distances.json', 'w') as outfile:
+    #     json.dump(distances, outfile)
 
+    # REGULAR COMMUTERS
     # regular_commute(rows)
 
-run("data/bike-data.csv")
-
-
-# test = { "name":"John", "age":40, "car":None }
-##convert object to json
-# serialized= json.dumps(test)
-# print(serialized)
-# with open('data.json', 'w') as outfile:
-#     json.dump(test, outfile)
-
+# run("data/bike-data.csv")
