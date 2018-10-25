@@ -1,17 +1,11 @@
-// http://bl.ocks.org/nnattawat/8916402
+// Code referenced from http://bl.ocks.org/nnattawat/8916402
 
-$.getJSON("data/test.json", function (data) {
-    console.log(data);
-});
-
-
-
-
-
-
+$.getJSON("data/start-freq.json", function (data) {
     var color = "steelblue";
     // Generate a 1000 data points using normal distribution with mean=20, deviation=5
-    var values = d3.range(1000).map(d3.random.normal(20, 5));
+    // var values = d3.range(1000).map(d3.random.normal(20, 5));
+    // var values = d3.range(1000).map(d3.random.normal(20, 5));
+    var values = data.start
 
     // A formatter for counts.
     var formatCount = d3.format(",.0f");
@@ -42,6 +36,7 @@ $.getJSON("data/test.json", function (data) {
     var yMin = d3.min(data, function (d) {
         return d.length
     });
+    console.log(yMax, yMin)
     var colorScale = d3.scale.linear()
         .domain([yMin, yMax])
         .range([d3.rgb(color).brighter(), d3.rgb(color).darker()]);
@@ -91,8 +86,7 @@ $.getJSON("data/test.json", function (data) {
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis);
-
-// });
+});
 
 /*
  * Adding refresh method to reload new data
@@ -142,11 +136,10 @@ function refresh(values) {
         .text(function (d) {
             return formatCount(d.y);
         });
-
-
-    // Calling refresh repeatedly.
-    setInterval(function () {
-        var values = d3.range(1000).map(d3.random.normal(20, 5));
-        refresh(values);
-    }, 2000);
 }
+
+// Calling refresh repeatedly.
+// setInterval(function () {
+//     var values = d3.range(1000).map(d3.random.normal(20, 5));
+//     refresh(values);
+// }, 2000);

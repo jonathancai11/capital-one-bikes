@@ -20,6 +20,9 @@ def top_stations(rows):
     """
     Generates top 5 stations (start and end) given a list of rows as input.
     """
+    #Test:
+    start_tmp = {"start": []}
+
     # Processing
     start_stations = defaultdict(int)
     end_stations = defaultdict(int)
@@ -28,6 +31,14 @@ def top_stations(rows):
         end_station = row[7]
         start_stations[start_station] += 1
         end_stations[end_station] += 1
+
+        # Test:
+        try:
+            start = float(start_station)
+            if start > 20000 or start < 3400:
+                start_tmp["start"].append(start_station)
+        except ValueError:
+            continue
 
     # print(start_stations)
     # print(end_stations)
@@ -54,7 +65,7 @@ def top_stations(rows):
             top_ends.append(end)
     print(top_ends)
 
-    return start_stations, end_stations
+    return start_stations, end_stations, start_tmp
 
 
 def average_distance_travelled(rows):
@@ -123,12 +134,12 @@ def run(filename):
     """
     Run computations.
     """
-    # rows = process_csv(filename)
+    rows = process_csv(filename)
 
     # START/STOP STATIONS
-    # start_stations, end_stations = top_stations(rows)
-    # with open('data/start-stations-frequency.json', 'w') as outfile:
-    #     json.dump(start_stations, outfile)
+    start_stations, end_stations, start_tmp = top_stations(rows)
+    with open('data/start-freq.json', 'w') as outfile:
+        json.dump(start_tmp, outfile)
     # with open('data/end-stations-frequency.json', 'w') as outfile:
     #     json.dump(end_stations, outfile)
 
@@ -140,4 +151,4 @@ def run(filename):
     # REGULAR COMMUTERS
     # regular_commute(rows)
 
-# run("data/original-bike-data.csv")
+run("data/original-bike-data.csv")
