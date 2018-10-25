@@ -1,5 +1,9 @@
 // http://bl.ocks.org/nnattawat/8916402
 
+$.getJSON("data/start-stations-frequency.json", function(datat) {
+    console.log(data);
+});
+
 var color = "steelblue";
 // Generate a 1000 data points using normal distribution with mean=20, deviation=5
 var values = d3.range(1000).map(d3.random.normal(20, 5));

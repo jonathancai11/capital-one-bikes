@@ -127,17 +127,17 @@ def run(filename):
 
     # START/STOP STATIONS
     # start_stations, end_stations = top_stations(rows)
-    # with open('data/start_stations_frequency.json', 'w') as outfile:
+    # with open('data/start-stations-frequency.json', 'w') as outfile:
     #     json.dump(start_stations, outfile)
-    # with open('data/end_stations_frequency.json', 'w') as outfile:
+    # with open('data/end-stations-frequency.json', 'w') as outfile:
     #     json.dump(end_stations, outfile)
 
     # DISTANCES
     # distances = average_distance_travelled(rows)
-    # with open('data/travel_distances.json', 'w') as outfile:
+    # with open('data/travel-distances.json', 'w') as outfile:
     #     json.dump(distances, outfile)
 
     # REGULAR COMMUTERS
     # regular_commute(rows)
 
-# run("data/bike-data.csv")
+# run("data/original-bike-data.csv")
