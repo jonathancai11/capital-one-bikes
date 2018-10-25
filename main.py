@@ -54,7 +54,6 @@ def top_stations(rows):
             top_ends.append(end)
     print(top_ends)
 
-
     return start_stations, end_stations
 
 
@@ -63,7 +62,7 @@ def average_distance_travelled(rows):
     Given rows of our data, computes average distance.
     """
     count = 0
-    distances = []
+    distances = defaultdict(int)
     for row in rows:
         count += 1
         # Malformed data, sometimes can't parse to float
@@ -88,13 +87,16 @@ def average_distance_travelled(rows):
         if trip_route_category != "Round Trip":
             distance = geopy.distance.distance(start, end)
             # print("Distance :", distance)
-            distances.append(distance)
+            distances[distance.miles] += 1
 
-        if count == 20:
-            break
+        # if count == 20:
+        #     break
 
-    distances_miles = list(x.miles for x in distances)
-    print("Average distance:", sum(distances_miles) / len(distances_miles))
+    distances_miles = list(x for x in distances)
+    print("Average distance in miles:", sum(distances_miles) / len(distances_miles))
+
+    return distances
+
 
 
 def regular_commute(rows):
@@ -120,13 +122,17 @@ def run(filename):
     Run computations.
     """
     rows = process_csv(filename)
-    start_stations, end_stations = top_stations(rows)
-    with open('data/start_stations_frequency.json', 'w') as outfile:
-        json.dump(start_stations, outfile)
-    with open('data/end_stations_frequency.json', 'w') as outfile:
-        json.dump(end_stations, outfile)
+    # start_stations, end_stations = top_stations(rows)
+    # with open('data/start_stations_frequency.json', 'w') as outfile:
+    #     json.dump(start_stations, outfile)
+    # with open('data/end_stations_frequency.json', 'w') as outfile:
+    #     json.dump(end_stations, outfile)
+    #
 
-    # average_distance_travelled(rows)
+    distances = average_distance_travelled(rows)
+    with open('data/travel_distances.json', 'w') as outfile:
+        json.dump(distances, outfile)
+
     # regular_commute(rows)
 
 run("data/bike-data.csv")
