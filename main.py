@@ -1,8 +1,9 @@
 import csv
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 import numpy as np
 import geopy.distance
 import json
+
 
 
 def process_csv(filename):
@@ -74,7 +75,7 @@ def average_distance_travelled(rows):
     """
     count = 0
     total_distance = 0
-    distances = defaultdict(int)
+    distance_frequencies = defaultdict(int)
 
     for row in rows:
 
@@ -89,26 +90,32 @@ def average_distance_travelled(rows):
         except ValueError:
             continue
 
+        # Get trip category and form arrays of start/end
         trip_route_category = row[12]
         start = np.array([start_lat, start_long])
         end = np.array([end_lat, end_long])
-        # print(start_lat, start_long, " ->  TO  -> ", end_lat, end_long)
+
         # Only considering One-Way trips for now....
         if trip_route_category != "Round Trip":
             distance = geopy.distance.distance(start, end)
-            distances[round(distance.miles, 2)] += 1
+            # Crazy outliers
+            if distance > 1000:
+                continue
+            distance_frequencies[round(distance.miles, 2)] += 1
             total_distance += distance.miles
             count += 1
 
-    for key in distances:
-        distances[key] = distances[key] / count
+    # Store distance frequencies sorted
+    distance_probabilities = OrderedDict(sorted(distance_frequencies.items()))
 
-        # if count == 20:
-        #     break
+    # We want probability density, not frequencies
+    for key in distance_probabilities:
+        distance_probabilities[key] = distance_probabilities[key] / count
+
 
     print("Average distance in miles:", total_distance / count)
 
-    return distances
+    return distance_probabilities
 
 
 
@@ -138,13 +145,13 @@ def run(filename):
     #     json.dump(end_stations, outfile)
 
     # DISTANCES
-    # distances = average_distance_travelled(rows)
-    # with open('data/travel-distances.json', 'w') as outfile:
-    #     json.dump(distances, outfile)
+    distances = average_distance_travelled(rows)
+    with open('data/travel-distances.json', 'w') as outfile:
+        json.dump(distances, outfile)
 
     # REGULAR COMMUTERS
-    comms = regular_commute(rows)
-    print(comms['Walk-up'] / sum(comms.values()))
+    # comms = regular_commute(rows)
+    # print(comms['Walk-up'] / sum(comms.values()))
     # with open("data/pass-types.json", "w") as outfile:
     #     json.dump(comms, outfile)
 

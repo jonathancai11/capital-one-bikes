@@ -12,15 +12,23 @@ $.getJSON("data/travel-distances.json", function(data) {
         data: {
             labels: keys,
             datasets: [{
-                label: 'Frequency',
+                label: 'Probability',
                 data: values,
                 pointBackgroundColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 1)',
-                // xAxisID: "Miles"
                 fill: true,
                 cubicInterpolationMode: 'default',
             }]
         },
-        options: {}
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+
     });    
 })
