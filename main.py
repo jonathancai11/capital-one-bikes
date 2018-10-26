@@ -142,4 +142,4 @@ def run(filename):
     # with open("data/pass-types.json", "w") as outfile:
     #     json.dump(comms, outfile)
 
-run("data/original-bike-data.csv")
+run("data/og/original-bike-data.csv")
