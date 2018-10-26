@@ -6,7 +6,6 @@ $.getJSON("data/pass-types.json", function(data) {
         values.push(data[key])
         keys.push(key)
     }
-    console.log(values)
     var ctx = document.getElementById("q4chart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',

@@ -90,18 +90,18 @@ def average_distance_travelled(rows):
             continue
 
         trip_route_category = row[12]
-
         start = np.array([start_lat, start_long])
         end = np.array([end_lat, end_long])
-
         # print(start_lat, start_long, " ->  TO  -> ", end_lat, end_long)
-
         # Only considering One-Way trips for now....
         if trip_route_category != "Round Trip":
             distance = geopy.distance.distance(start, end)
-            distances[distance.miles] += 1
+            distances[round(distance.miles, 2)] += 1
             total_distance += distance.miles
             count += 1
+
+    for key in distances:
+        distances[key] = distances[key] / count
 
         # if count == 20:
         #     break
@@ -144,8 +144,8 @@ def run(filename):
 
     # REGULAR COMMUTERS
     comms = regular_commute(rows)
-    print(comms)
-    with open("data/pass-types.json", "w") as outfile:
-        json.dump(comms, outfile)
+    print(comms['Walk-up'] / sum(comms.values()))
+    # with open("data/pass-types.json", "w") as outfile:
+    #     json.dump(comms, outfile)
 
 run("data/original-bike-data.csv")
