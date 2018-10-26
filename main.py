@@ -115,20 +115,14 @@ def average_distance_travelled(rows):
 def regular_commute(rows):
     """
     Given the rows of data, computes the number of "riders that include bike-sharing
-    as a regular part of their commute.
+    as a regular part of their commute".
     """
-    count = 0
     regulars = 0
+    counts = defaultdict(int)
     for row in rows:
-        count += 1
         pass_type = row[13]
-        if pass_type != "Walk-up":
-            regulars += 1
-
-        # if count == 20:
-        #     break
-
-    print(regulars)
+        counts[pass_type] += 1
+    return counts
 
 def run(filename):
     """
@@ -137,9 +131,9 @@ def run(filename):
     rows = process_csv(filename)
 
     # START/STOP STATIONS
-    start_stations, end_stations, start_tmp = top_stations(rows)
-    with open('data/start-freq.json', 'w') as outfile:
-        json.dump(start_tmp, outfile)
+    # start_stations, end_stations, start_tmp = top_stations(rows)
+    # with open('data/start-freq.json', 'w') as outfile:
+    #     json.dump(start_tmp, outfile)
     # with open('data/end-stations-frequency.json', 'w') as outfile:
     #     json.dump(end_stations, outfile)
 
@@ -149,6 +143,9 @@ def run(filename):
     #     json.dump(distances, outfile)
 
     # REGULAR COMMUTERS
-    # regular_commute(rows)
+    comms = regular_commute(rows)
+    print(comms)
+    with open("data/pass-types.json", "w") as outfile:
+        json.dump(comms, outfile)
 
 run("data/original-bike-data.csv")
