@@ -21,9 +21,6 @@ def top_stations(rows):
     """
     Generates top 5 stations (start and end) given a list of rows as input.
     """
-    #Test:
-    start_tmp = {"start": []}
-
     # Processing
     start_stations = defaultdict(int)
     end_stations = defaultdict(int)
@@ -33,40 +30,31 @@ def top_stations(rows):
         start_stations[start_station] += 1
         end_stations[end_station] += 1
 
-        # Test:
-        try:
-            start = float(start_station)
-            if start > 20000 or start < 3400:
-                start_tmp["start"].append(start_station)
-        except ValueError:
-            continue
-
-    # print(start_stations)
-    # print(end_stations)
-
     # Computing top 5 starts
-    unique_starts = len(start_stations)
-    print("Number of unique starting stations:", unique_starts)
-
-    top5_start_scores = sorted(start_stations.values())[unique_starts - 5: unique_starts]
-    top_starts = []
-    for start in start_stations:
-        if start_stations[start] in top5_start_scores and start not in top_starts:
-            top_starts.append(start)
-    print(top_starts)
+    # unique_starts = len(start_stations)
+    # print("Number of unique starting stations:", unique_starts)
+    # top5_start_scores = sorted(start_stations.values())[unique_starts - 5: unique_starts]
+    # top_starts = []
+    # for start in start_stations:
+    #     if start_stations[start] in top5_start_scores and start not in top_starts:
+    #         top_starts.append(start)
+    # print(top_starts)
 
     # Computing top 5 ends
-    unique_ends = len(end_stations)
-    print("Number of unique ending stations:", unique_ends)
+    # unique_ends = len(end_stations)
+    # print("Number of unique ending stations:", unique_ends)
 
-    top5_end_scores = sorted(end_stations.values())[unique_ends - 5: unique_ends]
-    top_ends = []
-    for end in end_stations:
-        if end_stations[end] in top5_end_scores and end not in top_ends:
-            top_ends.append(end)
-    print(top_ends)
+    # top5_end_scores = sorted(end_stations.values())[unique_ends - 5: unique_ends]
+    # top_ends = []
+    # for end in end_stations:
+    #     if end_stations[end] in top5_end_scores and end not in top_ends:
+    #         top_ends.append(end)
+    # print(top_ends)
 
-    return start_stations, end_stations, start_tmp
+    sorted_starts = sorted(start_stations.items(), key=lambda kv: -kv[1])
+    sorted_ends = sorted(end_stations.items(), key=lambda kv: -kv[1])
+
+    return sorted_starts, sorted_ends
 
 
 def average_distance_travelled(rows):
@@ -124,7 +112,6 @@ def regular_commute(rows):
     Given the rows of data, computes the number of "riders that include bike-sharing
     as a regular part of their commute".
     """
-    regulars = 0
     counts = defaultdict(int)
     for row in rows:
         pass_type = row[13]
@@ -138,16 +125,16 @@ def run(filename):
     rows = process_csv(filename)
 
     # START/STOP STATIONS
-    # start_stations, end_stations, start_tmp = top_stations(rows)
-    # with open('data/start-freq.json', 'w') as outfile:
-    #     json.dump(start_tmp, outfile)
-    # with open('data/end-stations-frequency.json', 'w') as outfile:
-    #     json.dump(end_stations, outfile)
+    start_stations, end_stations = top_stations(rows)
+    with open('data/start-stations-frequency.json', 'w') as outfile:
+        json.dump(start_stations, outfile)
+    with open('data/end-stations-frequency.json', 'w') as outfile:
+        json.dump(end_stations, outfile)
 
     # DISTANCES
-    distances = average_distance_travelled(rows)
-    with open('data/travel-distances.json', 'w') as outfile:
-        json.dump(distances, outfile)
+    # distances = average_distance_travelled(rows)
+    # with open('data/travel-distances.json', 'w') as outfile:
+    #     json.dump(distances, outfile)
 
     # REGULAR COMMUTERS
     # comms = regular_commute(rows)

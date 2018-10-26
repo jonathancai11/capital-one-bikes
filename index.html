@@ -9,18 +9,16 @@
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
-  <!-- Own CSS -->
-  <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
 </head>
 
 <body>
 
   <!-- Navigation Bar -->
   <nav>
-    <div class="nav-wrapper blue lighten-2">
+    <div class="nav-wrapper blue lighten-1">
       <a href="#" class="brand-logo" style="padding-left: 20px">Capital One Engineering Summit 2018</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="#q1link">Question 1</a></li>
@@ -55,6 +53,10 @@
       <div class="section" id="q2">
         <h5>Question Two</h5>
         <p>Which start/stop stations are most popular?</p>
+        <canvas id="q2bar" width="200" height="100"></canvas>
+        <p>Stations 3069, 3030, 3005, 3064, 3031 are the most popular stations to start at.<br>
+          On the other hand, stations 3005, 3031, 3014, 3042, 3069 are the most popular stations to end at.
+        </p>
       </div>
 
       <a name="q3link"></a>
@@ -90,7 +92,7 @@
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
+  <script src="js/materialize.min.js"></script>
   <script src="js/init.js"></script>
 
   <!-- JQuery -->
@@ -102,6 +104,7 @@
   <!-- Own Script -->
   <script src="js/chart4.js"></script>
   <script src="js/line3.js"></script>
+  <script src="js/bar2.js"></script>
   
 
 </body>

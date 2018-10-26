@@ -1,5 +1,4 @@
 $.getJSON("data/travel-distances.json", function(data) {
-    console.log(data)
     var values = []
     var keys = []
     for (var key in data) {
@@ -17,7 +16,10 @@ $.getJSON("data/travel-distances.json", function(data) {
                 pointBackgroundColor: 'rgba(54, 162, 235, 1)',
                 backgroundColor: 'rgba(54, 162, 235, 1)',
                 fill: true,
-                cubicInterpolationMode: 'default',
+                cubicInterpolationMode: 'monotone',
+                // pointRadius: 0,
+                spanGaps: true,
+                // borderWidth: 4,
             }]
         },
         options: {
