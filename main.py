@@ -174,6 +174,23 @@ def time_distribution(rows):
     return sorted_time_dist
 
 
+def month_distribution(rows):
+    # Store month names
+    months = [None, "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    month_dist = {}
+    for month in months:
+        if month != None:
+            month_dist[month] = 0
+    for row in rows:
+        # Let's try to get the date/time
+        try:
+            start_time = dateutil.parser.parse(row[2])
+            month_dist[months[start_time.month]] += 1
+        except ValueError:
+            continue
+    return month_dist
+
 def run(filename):
     """
     Run computations.
@@ -204,9 +221,15 @@ def run(filename):
     #     json.dump(bike_dist, outfile)
 
     # TIME SERIES
-    time_dist = time_distribution(rows)
-    with open("data/time-dist.json", "w") as outfile:
-        json.dump(time_dist, outfile)
+    # time_dist = time_distribution(rows)
+    # with open("data/time-dist.json", "w") as outfile:
+    #     json.dump(time_dist, outfile)
+
+    # MONTHS
+    month_dist = month_distribution(rows)
+    with open("data/month-dist.json", "w") as outfile:
+        json.dump(month_dist, outfile)
+
 
 
 run("data/og/original-bike-data.csv")
