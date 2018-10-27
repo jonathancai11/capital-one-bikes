@@ -7,9 +7,6 @@ $.getJSON("data/bike-freq.json", function(data) {
         count += 1 
         values.push(data[key][1])
         keys.push(data[key][0])
-        // if (count == 40) {
-        //     break
-        // }
     }
     var ctx = document.getElementById("q1chart").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -19,10 +16,10 @@ $.getJSON("data/bike-freq.json", function(data) {
             datasets: [{
                 label: '# of Uses',
                 data: values,
-                backgroundColor: 'rgba(54, 162, 235, 1)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(255, 206, 86, 1)',
+                borderColor: 'rgba(255, 206, 86, 1)',
                 pointRadius: 0,
-                // fill: false,                
+                // fill: false,             
             }]
         },
         options: {

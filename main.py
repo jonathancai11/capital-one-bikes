@@ -140,29 +140,38 @@ def time_distribution(rows):
     """
     Computes the distibution of time intervals for each bike usage.
     """
-    # Begin with the first values for start/end times
-    earliest_start = dateutil.parser.parse(rows[0][2])
-    latest_end = dateutil.parser.parse(rows[0][3])
-
-
+    time_dist = defaultdict(int)
+    count = 0
     for row in rows:
         # Let's try to get the date/time
         try:
             start_time = dateutil.parser.parse(row[2])
             end_time = dateutil.parser.parse(row[3])
-            if start_time < earliest_start:
-                earliest_start = start_time
-            if end_time > latest_end:
-                latest_end = end_time
+            minutes = (end_time - start_time).seconds / 60.0
+            if minutes < 101:
+                time_dist[minutes] += 1
+                count += 1
         except ValueError:
             continue
 
-    # Total time
-    total_time = latest_end - earliest_start
-    print("Total time interval:", total_time, "From", earliest_start, "to", latest_end)
-    print("Total time in seconds:", total_time.seconds)
-    print("Total time in hours:", total_time.seconds / 60 / 60)
+    # Get mean
+    total_time = 0
+    for k, v in time_dist.items():
+        total_time += k * v
+    print("Average time:", total_time / count)
+    # Get median
+    total = 0.0
+    median = 0
+    for key, value in sorted(time_dist.items()):
+        total += value
+        if total > count / 2:
+            median = key
+            break
+    print("Median time:", median)
+        
 
+    sorted_time_dist = OrderedDict(sorted(time_dist.items()))
+    return sorted_time_dist
 
 
 def run(filename):
@@ -190,9 +199,14 @@ def run(filename):
     #     json.dump(comms, outfile)
 
     # BIKE FREQUENCIES
-    bike_dist = bike_distribution(rows)
-    with open("data/bike-freq.json", "w") as outfile:
-        json.dump(bike_dist, outfile)
+    # bike_dist = bike_distribution(rows)
+    # with open("data/bike-freq.json", "w") as outfile:
+    #     json.dump(bike_dist, outfile)
+
+    # TIME SERIES
+    time_dist = time_distribution(rows)
+    with open("data/time-dist.json", "w") as outfile:
+        json.dump(time_dist, outfile)
 
 
 run("data/og/original-bike-data.csv")

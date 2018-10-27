@@ -47,7 +47,15 @@
         </p>
       </div>
       <div class="section" id="q1p2">
-        <p>Another interesting metric.</p>
+        <p>What is the average time for a bike ride?</p>
+        <canvas id="q1time" width="200" height="100"></canvas>
+        <p>
+          The mean was approximately 14.58 minutes. <br>
+          Due to the long tail, this mean may not be as good of a reading of the average as the median (approximately 10 minutes).<br>
+          There were plenty of crazy outliers, bike rides lasting for more than 1000 minutes. I decided not to include those into
+          the distribution, as it simply seemed too unreasonable. I cut off the total minutes at 100, as minutes past that count 
+          were only frequented once.
+        </p>
       </div>
       <div class="section" id="q1p3">
         <p>Yet another interesting metric.</p>
@@ -119,6 +127,7 @@
   <script src="js/line3.js"></script>
   <script src="js/bar2.js"></script>
   <script src="js/chart1.js"></script>
+  <script src="js/timeline.js"></script>
   
 
 </body>
