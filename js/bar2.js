@@ -14,23 +14,19 @@ $.when(
         // Retrieve context for canvas element
         var ctx = document.getElementById("q2bar").getContext('2d');
 
-        // Store keys/values of start data separately
-        var count = 0
-
+        // Store values of start data separately
         var startValues = []
-        var startKeys = []
-
         var endValues = []
-        var endKeys = []
-
         // Keys for both start and end
         var totalKeys = []
 
+        var count = 0
         for (var key in startData) {
             // Increment count
             count += 1
             // Only taking top 5
             if (count < 6) {
+                // Offset start/end values
                 startValues.push(0)
                 startValues.push(startData[key][1])
                 endValues.push(endData[key][1])
@@ -42,10 +38,6 @@ $.when(
                 break
             }
         }
-        console.log(totalKeys)
-        console.log(endValues)
-        console.log(startValues)
-
         // Create our chart with both data sets   
         var myBarChart = new Chart(ctx, {
             type: 'horizontalBar',

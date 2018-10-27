@@ -37,8 +37,14 @@
       <a name="q1link"></a>
       <h5>Question One</h5>
       <div class="section" id="q1">
-        <p>Some interesting metric.</p>
-        <!-- <canvas id="q1chart" width="200" height="50"></canvas> -->
+        <p>What is the frequencies of use across bikes?</p>
+        <canvas id="q1chart" width="200" height="100"></canvas>
+        <p>
+          The distribution of bike use frequencies is relatively even for most bikes, but trailing off on either end
+          in an S-shaped curve. Ideally, you would want a uniform distribution, so as to allocate resources (bikes) evenly
+          across LA. Interestingly, the bike corresponding to 4727 has particularly a lot of uses (312) during the time interval
+          when data was recorded, to be specific over 30 more than the next most used bike. -- SOME DISCUSSION ABOUT DIST. --
+        </p>
       </div>
       <div class="section" id="q1p2">
         <p>Another interesting metric.</p>
@@ -52,8 +58,12 @@
         <h5>Question Two</h5>
         <p>Which start/stop stations are most popular?</p>
         <canvas id="q2bar" width="200" height="100"></canvas>
-        <p>Stations 3069, 3030, 3005, 3064, 3031 are the most popular stations to start at.<br>
-          On the other hand, stations 3005, 3031, 3014, 3042, 3069 are the most popular stations to end at.
+        <p>
+          Stations 3069, 3030, 3005, 3064, 3031 are the most popular stations to start at.<br>
+          On the other hand, stations 3005, 3031, 3014, 3042, 3069 are the most popular stations to end at.<br>
+          Interestingly enough, the top ending station frequencies are far higher than those of the starting stations.
+          This may be due to travellers beginning from relatively more dispersed areas of LA, but largely transporting 
+          to severalpopular stations in hot areas of LA.
         </p>
       </div>
 
@@ -62,7 +72,11 @@
         <h5>Question Three</h5>
         <p>What is the average distance traveled?</p>
         <canvas id="q3line" width="200" height="100"></canvas>
-        <p>The average distance for each trip turned out to be approximately 0.734 miles.</p>
+        <p>
+          The average distance for each trip turned out to be approximately 0.734 miles.<br>
+          However, the mean is distorted by a long tail in the distribution, so the median (0.662 miles)
+          may be a more accurate approximation of the average.
+        </p>
       </div>
 
       <a name="q4link"></a>
@@ -70,7 +84,8 @@
         <h5>Question Four</h5>
         <p>How many riders include bike sharing as a regular part of their commute?</p>
         <canvas id="q4chart" width="200" height="50"></canvas>
-        <p>Assuming that any rider not categorized as 'Walk-Up' uses bike sharing as a regular
+        <p>
+          Assuming that any rider not categorized as 'Walk-Up' uses bike sharing as a regular
           part of their commute, and that each trip was a different rider, approximately 
           68.87% of riders uses bike sharing regularly.</p>
       </div>
@@ -103,6 +118,7 @@
   <script src="js/chart4.js"></script>
   <script src="js/line3.js"></script>
   <script src="js/bar2.js"></script>
+  <script src="js/chart1.js"></script>
   
 
 </body>

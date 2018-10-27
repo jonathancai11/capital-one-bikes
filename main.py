@@ -1,9 +1,11 @@
+import json
 import csv
 from collections import defaultdict, OrderedDict
+
 import numpy as np
 import geopy.distance
-import json
-
+import dateutil.parser
+import datetime
 
 
 def process_csv(filename):
@@ -16,6 +18,7 @@ def process_csv(filename):
         rows = list(reader)
     # Return all rows except first
     return rows[1:]
+
 
 def top_stations(rows):
     """
@@ -30,30 +33,9 @@ def top_stations(rows):
         start_stations[start_station] += 1
         end_stations[end_station] += 1
 
-    # Computing top 5 starts
-    # unique_starts = len(start_stations)
-    # print("Number of unique starting stations:", unique_starts)
-    # top5_start_scores = sorted(start_stations.values())[unique_starts - 5: unique_starts]
-    # top_starts = []
-    # for start in start_stations:
-    #     if start_stations[start] in top5_start_scores and start not in top_starts:
-    #         top_starts.append(start)
-    # print(top_starts)
-
-    # Computing top 5 ends
-    # unique_ends = len(end_stations)
-    # print("Number of unique ending stations:", unique_ends)
-
-    # top5_end_scores = sorted(end_stations.values())[unique_ends - 5: unique_ends]
-    # top_ends = []
-    # for end in end_stations:
-    #     if end_stations[end] in top5_end_scores and end not in top_ends:
-    #         top_ends.append(end)
-    # print(top_ends)
-
+    # Sort both start and end frequencies
     sorted_starts = sorted(start_stations.items(), key=lambda kv: -kv[1])
     sorted_ends = sorted(end_stations.items(), key=lambda kv: -kv[1])
-
     return sorted_starts, sorted_ends
 
 
@@ -66,7 +48,6 @@ def average_distance_travelled(rows):
     distance_frequencies = defaultdict(int)
 
     for row in rows:
-
         # Malformed data, sometimes can't parse to float
         try:
             # Start data
@@ -100,11 +81,18 @@ def average_distance_travelled(rows):
     for key in distance_probabilities:
         distance_probabilities[key] = distance_probabilities[key] / count
 
+    # Find our median
+    total = 0.0
+    median = 0
+    for elem in sorted(distance_probabilities.items()):
+        total += elem[1]
+        if total >= .5:
+            median = elem[0]
+            break
 
+    print("Median distance in miles:", median)
     print("Average distance in miles:", total_distance / count)
-
     return distance_probabilities
-
 
 
 def regular_commute(rows):
@@ -118,6 +106,65 @@ def regular_commute(rows):
         counts[pass_type] += 1
     return counts
 
+
+def bike_distribution(rows):
+    """
+    Computes the frequencies of use across all bikes
+    """
+    # Initialize dates/time, dict
+    count = 0
+    bike_dist = defaultdict(int)
+
+    # Iterate through all data
+    for row in rows:
+        # Get each bike id
+        count += 1
+        bike_id = row[10]
+        if bike_id != "":
+            bike_dist[bike_id] += 1
+
+    # Get average
+    print("Number of unique bikes:", len(bike_dist.keys()))
+    avg_freq = count / len(bike_dist.keys())
+    print("Average frequency for a bike:", avg_freq)
+
+    # Sorted by value (frequency)
+    sorted_bike_dist = sorted(bike_dist.items(), key=lambda kv: -kv[1])
+    # Sorted by key (bike id)
+    sorted_bike_id = OrderedDict(sorted(bike_dist.items()))
+    # return sorted_bike_id
+    return sorted_bike_dist
+
+
+def time_distribution(rows):
+    """
+    Computes the distibution of time intervals for each bike usage.
+    """
+    # Begin with the first values for start/end times
+    earliest_start = dateutil.parser.parse(rows[0][2])
+    latest_end = dateutil.parser.parse(rows[0][3])
+
+
+    for row in rows:
+        # Let's try to get the date/time
+        try:
+            start_time = dateutil.parser.parse(row[2])
+            end_time = dateutil.parser.parse(row[3])
+            if start_time < earliest_start:
+                earliest_start = start_time
+            if end_time > latest_end:
+                latest_end = end_time
+        except ValueError:
+            continue
+
+    # Total time
+    total_time = latest_end - earliest_start
+    print("Total time interval:", total_time, "From", earliest_start, "to", latest_end)
+    print("Total time in seconds:", total_time.seconds)
+    print("Total time in hours:", total_time.seconds / 60 / 60)
+
+
+
 def run(filename):
     """
     Run computations.
@@ -125,11 +172,11 @@ def run(filename):
     rows = process_csv(filename)
 
     # START/STOP STATIONS
-    start_stations, end_stations = top_stations(rows)
-    with open('data/start-stations-frequency.json', 'w') as outfile:
-        json.dump(start_stations, outfile)
-    with open('data/end-stations-frequency.json', 'w') as outfile:
-        json.dump(end_stations, outfile)
+    # start_stations, end_stations = top_stations(rows)
+    # with open('data/start-stations-frequency.json', 'w') as outfile:
+    #     json.dump(start_stations, outfile)
+    # with open('data/end-stations-frequency.json', 'w') as outfile:
+    #     json.dump(end_stations, outfile)
 
     # DISTANCES
     # distances = average_distance_travelled(rows)
@@ -141,5 +188,11 @@ def run(filename):
     # print(comms['Walk-up'] / sum(comms.values()))
     # with open("data/pass-types.json", "w") as outfile:
     #     json.dump(comms, outfile)
+
+    # BIKE FREQUENCIES
+    bike_dist = bike_distribution(rows)
+    with open("data/bike-freq.json", "w") as outfile:
+        json.dump(bike_dist, outfile)
+
 
 run("data/og/original-bike-data.csv")

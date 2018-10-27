@@ -17,12 +17,16 @@ $.getJSON("data/travel-distances.json", function(data) {
                 backgroundColor: 'rgba(54, 162, 235, 1)',
                 fill: true,
                 cubicInterpolationMode: 'monotone',
-                // pointRadius: 0,
                 spanGaps: true,
                 // borderWidth: 4,
             }]
         },
         options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Probabilities of Miles Rode'
+              },        
             scales: {
                 yAxes: [{
                     ticks: {
