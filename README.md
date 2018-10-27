@@ -1,3 +1,3 @@
-# Capital One Engineerin Summit Challenge
+# Capital One Engineering Summit Challenge
 ### LA Bike-Share Data Analytics
-* Materialize CSS, D3.js visualizations, JQuery
+* Materialize CSS, Chart.js Visualizations, JQuery, Python
