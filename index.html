@@ -20,7 +20,15 @@
   <nav>
     <div class="nav-extended blue lighten-1">
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo" style="padding-left: 20px">Capital One Engineering Summit Challenge 2018</a>
+        <img src="cap1-logo.svg" alt="Capital One Logo"  style="padding-left: 10px; padding-top: 10px" width="200" height="100">
+        <!-- <a class="brand-logo" style="padding-left: 20px;">Engineering Summit Challenge 2018</a> -->
+        <h2 class="brand-logo" style="padding-left: 20px; padding-top: 0px; padding-bottom: 0px">
+            Engineering Challenge 2018: LA Bike Share Data Analysis
+        </h2>
+          <p style="display:inline; text-align: right">&nbsp&nbsp&nbsp Made by <a class="white-text bold" href="https://github.com/jonathancai11">Jonathan Cai</a>
+            &nbsp&nbsp&nbsp 
+            <a class="white-text bold" href="https://github.com/jonathancai11/jonathancai11.github.io"> Check out the source code here</a>
+          </p>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="#q1link">Question 1</a></li>
           <li><a href="#q2link">Question 2</a></li>
@@ -29,15 +37,15 @@
         </ul>
       </div>
 
-      <div class="nav-content">
-          <span class="nav-title" style="padding-left: 20px; padding-top: 40px; padding-bottom: 0px">
+      <!-- <div class="nav-content">
+          <span class="nav-title" style="padding-left: 20px; padding-top: 0px; padding-bottom: 0px">
             LA Bike Share Data Analysis
           </span>
 
           <p style="display:inline; text-align: right">&nbsp&nbsp&nbsp Made by <a class="white-text bold" href="https://github.com/jonathancai11">Jonathan Cai</a>
             &nbsp&nbsp&nbsp Check out the source code <a class="white-text bold" href="https://github.com/jonathancai11/jonathancai11.github.io">here</a>
           </p>
-      </div>
+      </div> -->
     </div>
   </nav>
 
@@ -47,74 +55,82 @@
       <br><br><br>
 
       <a name="q1link"></a>
-      <h5>Question One</h5>
+      <h5>What is the frequencies of use across bikes?</h5>
       <div class="section" id="q1">
-        <p>What is the frequencies of use across bikes?</p>
         <canvas id="q1chart" width="200" height="80"></canvas>
         <p>
           The distribution of bike use frequencies is relatively even for most bikes, but trailing off on either end
           in an S-shaped curve. Ideally, you would want a uniform distribution, so as to allocate resources (bikes) evenly
           across LA. Interestingly, the bike corresponding to 4727 has particularly a lot of uses (312) during the time interval
-          when data was recorded, to be specific over 30 more than the next most used bike.
+          when data was recorded, to be specific over 30 more than the next most used bike. On the other hand, there exists bike
+          number 1349, which has accumulated only 1 ride over the entire data set. While there certainly are outliers, the 
+          bike company here appears to be doing a good job dispersing bikes across LA to optimize usage.
         </p>
       </div>
       <div class="section" id="q1p2">
-        <p>What is the average time for a bike ride?</p>
+        <h5>What is the average time for a bike ride?</h5>
+        <br>
         <canvas id="q1time" width="200" height="100"></canvas>
         <p>
           The mean was approximately 14.58 minutes. <br>
           Due to the long tail, this mean may not be as good of a reading of the average as the median (approximately 10 minutes).<br>
           There were plenty of crazy outliers, bike rides lasting for more than 1000 minutes. I decided not to include those into
-          the distribution, as it simply seemed too unreasonable. I cut off the total minutes at 100, as minutes past that count 
-          were only frequented once.
+          the distribution, so as to give a more constructive visual representation of this data. 
+          Thus, I cut off the total minutes at 100, as minutes past that count were only frequented once.
         </p>
       </div>
       <div class="section" id="q1p3">
-        <p>Which month has the most bike rides?</p>
+        <h5>Which month has the most bike rides?</h5>
+        <br>
         <canvas id="q1month" width="200" height="100"></canvas>
         <p>
           We don't have bike data from the summer months, but we can see that generally the most bike rides occurred in August, 
           trailing off going into the winter seasons. However, there might be issues with the accuracy of this distribution,
           because data was gathered in both 2016 and 2017, and there might be overlap in the fall months, leading to distortion.
+          I think it would be more interesting to see data across all months of a single year, so as to see the potential rise and fall
+          across different seasons.
         </p>
       </div>
 
       <a name="q2link"></a>
       <div class="section" id="q2">
-        <h5>Question Two</h5>
-        <p>Which start/stop stations are most popular?</p>
+        <h5>Which start/stop stations are most popular?</h5>
+        <br>
         <canvas id="q2bar" width="200" height="100"></canvas>
         <p>
           Stations 3069, 3030, 3005, 3064, 3031 are the most popular stations to start at.<br>
           On the other hand, stations 3005, 3031, 3014, 3042, 3069 are the most popular stations to end at.<br>
           Interestingly enough, the top ending station frequencies are far higher than those of the starting stations.
-          This may be due to travellers beginning from relatively more dispersed areas of LA, but largely transporting 
-          to severalpopular stations in hot areas of LA.
+          This may hint at the hypothesis that travellers begin from relatively more dispersed areas of LA, but ride bikes 
+          to fewer popular stations in hot areas of LA.
         </p>
       </div>
 
       <a name="q3link"></a>
       <div class="section" id="q3">
-        <h5>Question Three</h5>
-        <p>What is the average distance traveled?</p>
+        <h5>What is the average distance traveled?</h5>
+        <br>
         <canvas id="q3line" width="200" height="100"></canvas>
         <p>
           The average distance for each trip turned out to be approximately 0.734 miles.<br>
           However, the mean is distorted by a long tail in the distribution, so the median (0.662 miles)
           may be a more accurate approximation of the average.<br>
-          Currently, I am only considering One-Way trips.
+          Currently, I am only considering One-Way trips; there is no data for individual bikers 
+          to accurately infer an average trip distance travelled for the same biker.
         </p>
       </div>
 
       <a name="q4link"></a>
       <div class="section" id="q4">
-        <h5>Question Four</h5>
-        <p>How many riders include bike sharing as a regular part of their commute?</p>
+        <h5>How many riders include bike sharing as a regular part of their commute?</h5>
+        <br>
         <canvas id="q4chart" width="200" height="50"></canvas>
         <p>
           Assuming that any rider not categorized as 'Walk-Up' uses bike sharing as a regular
           part of their commute, and that each trip was a different rider, approximately 
-          68.87% of riders uses bike sharing regularly.</p>
+          68.87% of riders uses bike sharing regularly. This splits up into a large majority of 
+          61.4% using the Monthly Pass, and 7.2% using the Flex Pass.
+        </p>
       </div>
 
       <br><br>
